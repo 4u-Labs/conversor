@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#4f46e5" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- Background Squircle with Glow -->
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="url(#bgGrad)" filter="url(#shadow)" />
+  
+  <!-- Subtle Inner Border Highlight -->
+  <rect x="36" y="36" width="440" height="440" rx="108" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="6" />
+
+  <!-- Outer Pulse Ring -->
+  <circle cx="256" cy="256" r="140" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4" stroke-dasharray="16 12" />
+
+  <!-- Exchange Arrows & Units Graphic -->
+  <g transform="translate(256, 256)">
+    <!-- Top Arrow Right -->
+    <path d="M -90 -45 L 60 -45 M 35 -75 L 75 -45 L 35 -15" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Bottom Arrow Left -->
+    <path d="M 90 45 L -60 45 M -35 75 L -75 45 L -35 15" fill="none" stroke="#38bdf8" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Center Tech Node -->
+    <circle cx="0" cy="0" r="22" fill="#ffffff" />
+    <circle cx="0" cy="0" r="12" fill="#4f46e5" />
+  </g>
+</svg>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniConvert Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="ext-header">
+    <div class="brand">
+      <div class="brand-icon">🔄</div>
+      <div class="brand-text">UniConvert <span>Pro</span></div>
+    </div>
+    <span class="badge-tag">v2.0</span>
+  </header>
+
+  <main class="ext-main">
+    <!-- NLP Smart Box -->
+    <div class="nlp-box">
+      <div class="nlp-input-wrap">
+        <input type="text" id="nlpInput" placeholder="Ex: 50 USD em BRL ou 30 psi em bar..." autocomplete="off">
+        <button id="nlpBtn" title="Converter">⚡</button>
+      </div>
+      <div id="nlpFeedback" class="nlp-feedback" style="display: none;"></div>
+    </div>
+
+    <!-- Quick Converter -->
+    <div class="quick-card">
+      <div class="field-row">
+        <div class="field-group">
+          <label for="catSelect">Categoria</label>
+          <select id="catSelect">
+            <option value="currency">💰 Câmbio & Cripto</option>
+            <option value="pressure">🧭 Pressão</option>
+            <option value="length">📏 Comprimento</option>
+            <option value="mass">⚖️ Massa & Peso</option>
+            <option value="temperature">🌡️ Temperatura</option>
+            <option value="volume">🧪 Volume</option>
+            <option value="power">⚡ Potência</option>
+            <option value="data">💾 Armazenamento</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="convert-grid">
+        <div class="field-group">
+          <label for="valFrom">De</label>
+          <input type="number" id="valFrom" value="1" step="any">
+          <select id="unitFrom"></select>
+        </div>
+        <div class="swap-col">
+          <button id="btnSwap" class="btn-swap" title="Inverter">⇄</button>
+        </div>
+        <div class="field-group">
+          <label for="valTo">Para</label>
+          <input type="number" id="valTo" readonly>
+          <select id="unitTo"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-footer">
+      <button id="btnOpenWeb" class="btn-full-app">
+        <span>🚀 Abrir Web App Completo (19 Categorias)</span>
+      </button>
+    </div>
+  </main>
+
+  <footer class="ext-footer">
+    <span>🔒 100% Seguro & Client-Side</span>
+    <span class="sep">•</span>
+    <a href="https://4u.ia.br/app/conversor/" target="_blank">4u.ia.br</a>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

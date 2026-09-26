@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "UniConvert Pro — Conversor Universal Inteligente",
+  "short_name": "UniConvert",
+  "version": "2.0.0",
+  "description": "Conversor universal de unidades, moedas em tempo real, criptomoedas e grandezas de engenharia com comando inteligente.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "UniConvert Pro"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://economia.awesomeapi.com.br/*"
+  ],
+  "icons": {
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  }
+}

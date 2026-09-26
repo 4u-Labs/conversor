@@ -1,0 +1,5 @@
+.DS_Store
+*.log
+uploads/messages_log.json
+scratch/
+.env

@@ -1,0 +1,2271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniConvert Pro - Conversor Universal</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            min-height: 100vh;
+        }
+        
+        body.light-mode {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 50%, #f1f5f9 100%);
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .light-mode .glass {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .light-mode .glass-strong {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .light-mode .text-white {
+            color: #1e293b;
+        }
+        
+        .light-mode .text-white\/60, .light-mode .text-white\/40 {
+            color: #64748b;
+        }
+        
+        .glow {
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        .glow-accent {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
+        }
+        
+        .category-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+        
+        .category-card.active {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+        
+        .category-card.active .cat-icon {
+            background: rgba(255,255,255,0.2) !important;
+        }
+        
+        .input-modern {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .light-mode .input-modern {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            color: #1e293b;
+        }
+        
+        .input-modern:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .light-mode .input-modern:focus {
+            background: white;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+        
+        /* Select specific styles for better contrast */
+        select.input-modern {
+            background-color: #1e293b;
+            color: #ffffff;
+        }
+        
+        .light-mode select.input-modern {
+            background-color: #ffffff;
+            color: #1e293b;
+        }
+        
+        .select-modern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.25rem;
+        }
+        
+        /* Dropdown options styling */
+        .select-modern option {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 12px 16px;
+            font-size: 16px;
+        }
+        
+        .select-modern option:hover,
+        .select-modern option:focus,
+        .select-modern option:checked {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: #ffffff;
+        }
+        
+        .light-mode .select-modern option {
+            background-color: #ffffff;
+            color: #1e293b;
+        }
+        
+        .light-mode .select-modern option:hover,
+        .light-mode .select-modern option:focus,
+        .light-mode .select-modern option:checked {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: #ffffff;
+        }
+        
+        /* Firefox specific */
+        @-moz-document url-prefix() {
+            .select-modern {
+                background-color: #1e293b;
+                color: #ffffff;
+            }
+            
+            .light-mode .select-modern {
+                background-color: #ffffff;
+                color: #1e293b;
+            }
+        }
+        
+        /* Webkit scrollbar for select */
+        .select-modern::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .select-modern::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        
+        .select-modern::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 4px;
+        }
+        
+        .swap-btn {
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .swap-btn:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+        
+        .result-glow {
+            animation: resultPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes resultPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(6, 182, 212, 0.4); }
+        }
+        
+        .fade-up {
+            animation: fadeUp 0.5s ease forwards;
+        }
+        
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease forwards;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes bounceIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .history-item {
+            transition: all 0.3s ease;
+        }
+        
+        .history-item:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .quick-card {
+            transition: all 0.3s ease;
+        }
+        
+        .quick-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 10px;
+        }
+        
+        .multi-result {
+            transition: all 0.3s ease;
+        }
+        
+        .multi-result:hover {
+            background: rgba(99, 102, 241, 0.15);
+        }
+        
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+        
+        .copied-toast {
+            animation: toastIn 0.3s ease, toastOut 0.3s ease 1.7s forwards;
+        }
+        
+        @keyframes toastIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes toastOut {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-20px); opacity: 0; }
+        }
+        
+        .precision-slider {
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .precision-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+        }
+        
+        .voice-btn.listening {
+            animation: pulse 1s ease infinite;
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%) !important;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .comparison-bar {
+            transition: width 0.5s ease;
+        }
+        
+        .info-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+        
+        .info-trigger:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .keyboard-hint {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .share-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .calculator-btn {
+            transition: all 0.15s ease;
+        }
+        
+        .calculator-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .calculator-btn:active {
+            transform: scale(0.95);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Rodapé Estilo Premium 4U.IA.BR */
+        .footer-clean { position: relative; padding: 2rem 0; color: #4b5563; }
+        .footer-link-group { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 0.5rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; }
+        .footer-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); }
+        .footer-a { transition: all 0.2s; text-decoration: none; color: inherit; }
+        .footer-a:hover { color: #10b981; opacity: 1; }
+    </style>
+</head>
+<body class="p-4 md:p-6 lg:p-8 transition-colors duration-500">
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
+            <div class="text-center md:text-left">
+                <div class="flex items-center gap-3 justify-center md:justify-start">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center glow">
+                        <i class="fas fa-exchange-alt text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-white">
+                            Uni<span class="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Convert</span> Pro
+                        </h1>
+                        <p class="text-gray-400 text-sm">Conversor Universal de Unidades</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2 flex-wrap justify-center">
+                <!-- Search -->
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="searchUnits"
+                        placeholder="Buscar unidade..."
+                        class="input-modern w-40 md:w-56 px-4 py-2.5 pl-10 rounded-xl text-white placeholder-gray-400 focus:outline-none text-sm"
+                    >
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <span class="keyboard-hint absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">/</span>
+                    <div id="searchResults" class="absolute top-full left-0 right-0 mt-2 glass-strong rounded-xl overflow-hidden z-50 hidden max-h-64 overflow-y-auto">
+                    </div>
+                </div>
+                
+                <!-- Voice Input -->
+                <button id="voiceBtn" class="w-11 h-11 rounded-xl glass flex items-center justify-center text-white hover:bg-white/10 transition-all" title="Entrada por voz">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                
+                <!-- Calculator Toggle -->
+                <button id="calcToggle" class="w-11 h-11 rounded-xl glass flex items-center justify-center text-white hover:bg-white/10 transition-all" title="Calculadora">
+                    <i class="fas fa-calculator"></i>
+                </button>
+                
+                <!-- Settings -->
+                <button id="settingsToggle" class="w-11 h-11 rounded-xl glass flex items-center justify-center text-white hover:bg-white/10 transition-all" title="Configurações">
+                    <i class="fas fa-cog"></i>
+                </button>
+                
+                <!-- Theme Toggle -->
+                <button id="themeToggle" class="w-11 h-11 rounded-xl glass flex items-center justify-center text-white hover:bg-white/10 transition-all" title="Alternar tema">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                
+                <!-- History Toggle -->
+                <button id="historyToggle" class="w-11 h-11 rounded-xl glass flex items-center justify-center text-white hover:bg-white/10 transition-all relative" title="Histórico">
+                    <i class="fas fa-history"></i>
+                    <span id="historyBadge" class="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full text-xs flex items-center justify-center hidden">0</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div class="stats-card glass rounded-xl p-3 text-center">
+                <div class="text-2xl font-bold text-cyan-400" id="totalConversions">0</div>
+                <div class="text-white/40 text-xs">Conversões</div>
+            </div>
+            <div class="stats-card glass rounded-xl p-3 text-center">
+                <div class="text-2xl font-bold text-purple-400" id="totalCategories">15</div>
+                <div class="text-white/40 text-xs">Categorias</div>
+            </div>
+            <div class="stats-card glass rounded-xl p-3 text-center">
+                <div class="text-2xl font-bold text-green-400" id="totalUnits">150+</div>
+                <div class="text-white/40 text-xs">Unidades</div>
+            </div>
+            <div class="stats-card glass rounded-xl p-3 text-center">
+                <div class="text-2xl font-bold text-yellow-400" id="favCount">0</div>
+                <div class="text-white/40 text-xs">Favoritos</div>
+            </div>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-white/60 text-sm font-semibold uppercase tracking-widest">
+                    <i class="fas fa-layer-group mr-2"></i>Categorias
+                </h2>
+                <div class="flex gap-2">
+                    <button id="scrollLeft" class="w-8 h-8 rounded-lg glass text-white/60 hover:text-white hover:bg-white/10 transition-all hidden md:flex items-center justify-center">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="scrollRight" class="w-8 h-8 rounded-lg glass text-white/60 hover:text-white hover:bg-white/10 transition-all hidden md:flex items-center justify-center">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="categoriesContainer" class="flex gap-3 overflow-x-auto pb-4 scroll-smooth">
+                <!-- Categories will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid lg:grid-cols-3 gap-6">
+            <!-- Converter Card -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="glass-strong rounded-3xl p-6 md:p-8 glow fade-up">
+                    <!-- Tabs -->
+                    <div class="flex gap-2 mb-6 p-1 bg-white/5 rounded-xl w-fit">
+                        <button class="tab-btn active px-4 py-2 rounded-lg text-white text-sm font-medium" data-tab="single">
+                            <i class="fas fa-exchange-alt mr-2"></i>Simples
+                        </button>
+                        <button class="tab-btn px-4 py-2 rounded-lg text-white/60 text-sm font-medium" data-tab="multi">
+                            <i class="fas fa-list mr-2"></i>Múltiplo
+                        </button>
+                        <button class="tab-btn px-4 py-2 rounded-lg text-white/60 text-sm font-medium" data-tab="compare">
+                            <i class="fas fa-chart-bar mr-2"></i>Comparar
+                        </button>
+                    </div>
+
+                    <!-- Single Conversion Tab -->
+                    <div id="singleTab" class="space-y-6">
+                        <!-- From Section -->
+                        <div class="fade-up" style="animation-delay: 0.1s">
+                            <label class="flex items-center gap-2 text-white/60 text-sm font-medium mb-3">
+                                <span class="w-6 h-6 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                    <i class="fas fa-arrow-right text-xs"></i>
+                                </span>
+                                Converter de
+                            </label>
+                            <div class="flex flex-col md:flex-row gap-3">
+                                <div class="relative flex-1">
+                                    <input 
+                                        type="text" 
+                                        id="inputValue" 
+                                        class="input-modern w-full px-5 py-4 text-2xl md:text-3xl font-bold text-white rounded-2xl focus:outline-none"
+                                        placeholder="0"
+                                        value="1"
+                                        inputmode="decimal"
+                                    >
+                                    <button id="clearInput" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-white/10 text-white/40 hover:text-white hover:bg-white/20 transition-all flex items-center justify-center">
+                                        <i class="fas fa-times text-sm"></i>
+                                    </button>
+                                </div>
+                                <div class="relative md:w-72">
+                                    <select id="fromUnit" class="select-modern input-modern w-full px-4 py-4 text-lg text-white rounded-2xl focus:outline-none appearance-none cursor-pointer">
+                                    </select>
+                                    <div class="info-trigger absolute right-12 top-1/2 -translate-y-1/2">
+                                        <i class="fas fa-info-circle text-white/30 hover:text-white/60 cursor-help"></i>
+                                        <div class="info-tooltip absolute bottom-full right-0 mb-2 p-3 glass-strong rounded-xl w-48 text-xs text-white/80 z-10">
+                                            <div id="fromUnitInfo">Informações da unidade</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Swap Button -->
+                        <div class="flex justify-center py-2">
+                            <button id="swapBtn" class="swap-btn w-14 h-14 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white shadow-lg hover:shadow-xl glow">
+                                <i class="fas fa-sync-alt text-xl"></i>
+                            </button>
+                        </div>
+
+                        <!-- To Section -->
+                        <div class="fade-up" style="animation-delay: 0.2s">
+                            <label class="flex items-center gap-2 text-white/60 text-sm font-medium mb-3">
+                                <span class="w-6 h-6 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                    <i class="fas fa-arrow-left text-xs"></i>
+                                </span>
+                                Resultado
+                            </label>
+                            <div class="flex flex-col md:flex-row gap-3">
+                                <div class="flex-1 relative group">
+                                    <div class="result-glow bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-2 border-cyan-500/30 px-5 py-4 rounded-2xl">
+                                        <span id="resultValue" class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">1</span>
+                                    </div>
+                                    <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                                        <button id="copyResult" class="w-9 h-9 rounded-lg bg-white/10 text-white/40 hover:text-cyan-400 hover:bg-cyan-500/20 transition-all flex items-center justify-center" title="Copiar">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                        <button id="shareResult" class="w-9 h-9 rounded-lg bg-white/10 text-white/40 hover:text-green-400 hover:bg-green-500/20 transition-all flex items-center justify-center" title="Compartilhar">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <select id="toUnit" class="select-modern input-modern md:w-72 px-4 py-4 text-lg text-white rounded-2xl focus:outline-none appearance-none cursor-pointer">
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Formula & Actions -->
+                        <div class="flex flex-col md:flex-row gap-4 mt-6">
+                            <div class="flex-1 p-4 rounded-2xl bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center">
+                                            <i class="fas fa-function text-indigo-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-white/40 text-xs uppercase tracking-wider">Fórmula</p>
+                                            <p id="formula" class="text-white font-medium text-sm">1 Metro = 1 Metro</p>
+                                        </div>
+                                    </div>
+                                    <button id="copyFormula" class="w-9 h-9 rounded-lg bg-white/5 text-white/40 hover:text-indigo-400 hover:bg-indigo-500/20 transition-all flex items-center justify-center">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <button id="addFavFromMain" class="px-6 py-4 rounded-2xl bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 text-yellow-400 hover:bg-yellow-500/20 transition-all flex items-center gap-2">
+                                <i class="fas fa-star"></i>
+                                <span class="text-sm font-medium">Favoritar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Multi Conversion Tab -->
+                    <div id="multiTab" class="hidden">
+                        <div class="mb-4">
+                            <label class="text-white/60 text-sm font-medium mb-3 block">Valor de entrada</label>
+                            <div class="flex flex-col md:flex-row gap-3">
+                                <input 
+                                    type="text" 
+                                    id="multiInputValue" 
+                                    class="input-modern flex-1 px-5 py-4 text-2xl font-bold text-white rounded-2xl focus:outline-none"
+                                    placeholder="0"
+                                    value="1"
+                                    inputmode="decimal"
+                                >
+                                <select id="multiFromUnit" class="select-modern input-modern md:w-56 px-4 py-4 text-lg text-white rounded-2xl focus:outline-none appearance-none cursor-pointer">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="text-white/60 text-sm font-medium">Todas as conversões</label>
+                            <button id="copyAllMulti" class="text-xs text-indigo-400 hover:text-indigo-300 transition-all">
+                                <i class="fas fa-copy mr-1"></i>Copiar todos
+                            </button>
+                        </div>
+                        <div id="multiResults" class="grid gap-2 max-h-80 overflow-y-auto pr-2">
+                            <!-- Multi results will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Compare Tab -->
+                    <div id="compareTab" class="hidden">
+                        <div class="mb-4">
+                            <label class="text-white/60 text-sm font-medium mb-3 block">Valor base para comparação</label>
+                            <div class="flex flex-col md:flex-row gap-3">
+                                <input 
+                                    type="text" 
+                                    id="compareInputValue" 
+                                    class="input-modern flex-1 px-5 py-4 text-2xl font-bold text-white rounded-2xl focus:outline-none"
+                                    placeholder="0"
+                                    value="100"
+                                    inputmode="decimal"
+                                >
+                                <select id="compareFromUnit" class="select-modern input-modern md:w-56 px-4 py-4 text-lg text-white rounded-2xl focus:outline-none appearance-none cursor-pointer">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <label class="text-white/60 text-sm font-medium mb-3 block">Comparação visual</label>
+                        <div id="compareResults" class="space-y-3 max-h-80 overflow-y-auto pr-2">
+                            <!-- Compare results will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversion Table -->
+                <div class="glass-strong rounded-3xl p-6 fade-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-white font-semibold text-lg flex items-center gap-2">
+                            <i class="fas fa-table text-indigo-400"></i>
+                            Tabela de Conversão
+                        </h3>
+                        <div class="flex items-center gap-2">
+                            <button id="exportTable" class="text-xs text-indigo-400 hover:text-indigo-300 transition-all px-3 py-1.5 rounded-lg bg-indigo-500/10">
+                                <i class="fas fa-download mr-1"></i>Exportar
+                            </button>
+                            <button id="toggleTable" class="text-white/40 hover:text-white transition-all">
+                                <i class="fas fa-chevron-down" id="tableIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="conversionTable" class="overflow-x-auto">
+                        <table class="w-full text-white" id="tableContent">
+                            <thead>
+                                <tr class="border-b border-white/10">
+                                    <th class="text-left py-3 px-4 text-white/60 font-medium">Unidade</th>
+                                    <th class="text-right py-3 px-4 text-white/60 font-medium">Valor</th>
+                                    <th class="text-center py-3 px-4 text-white/60 font-medium">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <!-- Table rows will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Quick Reference -->
+                <div class="glass-strong rounded-3xl p-6 fade-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-white font-semibold flex items-center gap-2">
+                            <i class="fas fa-bolt text-yellow-400"></i>
+                            Referência Rápida
+                        </h3>
+                    </div>
+                    <div id="quickRef" class="space-y-2">
+                        <!-- Quick reference items will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Favorites -->
+                <div class="glass-strong rounded-3xl p-6 fade-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-white font-semibold flex items-center gap-2">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            Favoritos
+                        </h3>
+                        <span class="text-xs text-white/40" id="favCountSidebar">0 itens</span>
+                    </div>
+                    <div id="favorites" class="space-y-2 max-h-48 overflow-y-auto">
+                        <p class="text-white/40 text-sm text-center py-4">Clique em ★ para adicionar</p>
+                    </div>
+                </div>
+
+                <!-- Unit Info -->
+                <div class="glass-strong rounded-3xl p-6 fade-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-white font-semibold flex items-center gap-2">
+                            <i class="fas fa-book text-blue-400"></i>
+                            Sobre a Unidade
+                        </h3>
+                    </div>
+                    <div id="unitInfoPanel" class="text-white/60 text-sm">
+                        <p>Selecione uma unidade para ver informações</p>
+                    </div>
+                </div>
+
+                <!-- Popular Conversions -->
+                <div class="glass-strong rounded-3xl p-6 fade-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-white font-semibold flex items-center gap-2">
+                            <i class="fas fa-fire text-orange-400"></i>
+                            Mais Usadas
+                        </h3>
+                    </div>
+                    <div id="popularConversions" class="space-y-2">
+                        <!-- Popular conversions will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Panel -->
+        <div id="historyPanel" class="fixed top-0 right-0 h-full w-80 glass-strong transform translate-x-full transition-transform duration-300 z-40 p-6 overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-white font-semibold text-lg flex items-center gap-2">
+                    <i class="fas fa-history text-indigo-400"></i>
+                    Histórico
+                </h3>
+                <button id="closeHistory" class="text-white/40 hover:text-white transition-all">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="flex gap-2 mb-4">
+                <button id="exportHistory" class="flex-1 py-2 rounded-lg bg-indigo-500/20 text-indigo-400 text-sm hover:bg-indigo-500/30 transition-all">
+                    <i class="fas fa-download mr-1"></i>Exportar
+                </button>
+                <button id="clearHistory" class="flex-1 py-2 rounded-lg bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-all">
+                    <i class="fas fa-trash mr-1"></i>Limpar
+                </button>
+            </div>
+            <div id="historyList" class="space-y-2">
+                <p class="text-white/40 text-sm text-center py-8">Nenhuma conversão ainda</p>
+            </div>
+        </div>
+        
+        <!-- History Overlay -->
+        <div id="historyOverlay" class="fixed inset-0 bg-black/50 z-30 hidden"></div>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="fixed inset-0 z-50 hidden">
+            <div class="modal-overlay absolute inset-0 bg-black/70" onclick="closeSettings()"></div>
+            <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md glass-strong rounded-3xl p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-white font-semibold text-lg flex items-center gap-2">
+                        <i class="fas fa-cog text-indigo-400"></i>
+                        Configurações
+                    </h3>
+                    <button onclick="closeSettings()" class="text-white/40 hover:text-white transition-all">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-6">
+                    <!-- Precision -->
+                    <div>
+                        <label class="text-white/60 text-sm font-medium mb-3 block">
+                            Casas decimais: <span id="precisionValue" class="text-cyan-400">8</span>
+                        </label>
+                        <input type="range" id="precisionSlider" min="0" max="15" value="8" class="precision-slider w-full">
+                    </div>
+                    
+                    <!-- Scientific Notation -->
+                    <div class="flex items-center justify-between">
+                        <label class="text-white/60 text-sm font-medium">Notação científica automática</label>
+                        <button id="scientificToggle" class="w-12 h-6 rounded-full bg-white/10 relative transition-all">
+                            <div class="absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-all"></div>
+                        </button>
+                    </div>
+                    
+                    <!-- Thousands Separator -->
+                    <div class="flex items-center justify-between">
+                        <label class="text-white/60 text-sm font-medium">Separador de milhares</label>
+                        <button id="thousandsToggle" class="w-12 h-6 rounded-full bg-indigo-500 relative transition-all">
+                            <div class="absolute top-1 right-1 w-4 h-4 rounded-full bg-white transition-all"></div>
+                        </button>
+                    </div>
+                    
+                    <!-- Sound -->
+                    <div class="flex items-center justify-between">
+                        <label class="text-white/60 text-sm font-medium">Sons</label>
+                        <button id="soundToggle" class="w-12 h-6 rounded-full bg-white/10 relative transition-all">
+                            <div class="absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-all"></div>
+                        </button>
+                    </div>
+                    
+                    <!-- Reset -->
+                    <button id="resetSettings" class="w-full py-3 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all font-medium">
+                        <i class="fas fa-undo mr-2"></i>Restaurar Padrões
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator Modal -->
+        <div id="calculatorModal" class="fixed inset-0 z-50 hidden">
+            <div class="modal-overlay absolute inset-0 bg-black/70" onclick="closeCalculator()"></div>
+            <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xs glass-strong rounded-3xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-white font-semibold flex items-center gap-2">
+                        <i class="fas fa-calculator text-indigo-400"></i>
+                        Calculadora
+                    </h3>
+                    <button onclick="closeCalculator()" class="text-white/40 hover:text-white transition-all">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="bg-white/5 rounded-xl p-4 mb-4">
+                    <div id="calcDisplay" class="text-right text-2xl font-bold text-white overflow-x-auto">0</div>
+                    <div id="calcExpression" class="text-right text-sm text-white/40 h-5"></div>
+                </div>
+                
+                <div class="grid grid-cols-4 gap-2">
+                    <button class="calculator-btn py-3 rounded-xl bg-red-500/20 text-red-400 font-bold" onclick="calcClear()">C</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white/60" onclick="calcInput('(')">(</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white/60" onclick="calcInput(')')">)</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-indigo-500/30 text-indigo-400" onclick="calcInput('/')">÷</button>
+                    
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('7')">7</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('8')">8</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('9')">9</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-indigo-500/30 text-indigo-400" onclick="calcInput('*')">×</button>
+                    
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('4')">4</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('5')">5</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('6')">6</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-indigo-500/30 text-indigo-400" onclick="calcInput('-')">−</button>
+                    
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('1')">1</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('2')">2</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('3')">3</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-indigo-500/30 text-indigo-400" onclick="calcInput('+')">+</button>
+                    
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('0')">0</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white" onclick="calcInput('.')">.</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-white/10 text-white/60" onclick="calcBackspace()">⌫</button>
+                    <button class="calculator-btn py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold" onclick="calcEquals()">=</button>
+                </div>
+                
+                <button id="useCalcResult" class="w-full mt-4 py-3 rounded-xl bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all font-medium">
+                    <i class="fas fa-arrow-right mr-2"></i>Usar no Conversor
+                </button>
+            </div>
+        </div>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="fixed inset-0 z-50 hidden">
+            <div class="modal-overlay absolute inset-0 bg-black/70" onclick="closeShare()"></div>
+            <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm glass-strong rounded-3xl p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-white font-semibold flex items-center gap-2">
+                        <i class="fas fa-share-alt text-green-400"></i>
+                        Compartilhar
+                    </h3>
+                    <button onclick="closeShare()" class="text-white/40 hover:text-white transition-all">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="bg-white/5 rounded-xl p-4 mb-6 text-center">
+                    <p id="shareText" class="text-white font-medium">1 Metro = 100 Centímetros</p>
+                </div>
+                
+                <div class="grid grid-cols-4 gap-3 mb-6">
+                    <button class="share-btn flex flex-col items-center gap-2 p-3 rounded-xl bg-green-500/20 text-green-400 hover:bg-green-500/30" onclick="shareVia('whatsapp')">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                        <span class="text-xs">WhatsApp</span>
+                    </button>
+                    <button class="share-btn flex flex-col items-center gap-2 p-3 rounded-xl bg-blue-500/20 text-blue-400 hover:bg-blue-500/30" onclick="shareVia('telegram')">
+                        <i class="fab fa-telegram text-xl"></i>
+                        <span class="text-xs">Telegram</span>
+                    </button>
+                    <button class="share-btn flex flex-col items-center gap-2 p-3 rounded-xl bg-sky-500/20 text-sky-400 hover:bg-sky-500/30" onclick="shareVia('twitter')">
+                        <i class="fab fa-twitter text-xl"></i>
+                        <span class="text-xs">Twitter</span>
+                    </button>
+                    <button class="share-btn flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30" onclick="shareVia('email')">
+                        <i class="fas fa-envelope text-xl"></i>
+                        <span class="text-xs">Email</span>
+                    </button>
+                </div>
+                
+                <button onclick="copyShareLink()" class="w-full py-3 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-all font-medium">
+                    <i class="fas fa-link mr-2"></i>Copiar Link
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-8 text-white/40 text-sm">
+            <p>Feito com <i class="fas fa-heart text-red-400"></i> para facilitar suas conversões</p>
+            <div class="flex items-center justify-center gap-4 mt-2 text-xs">
+                <span><kbd class="px-2 py-1 rounded bg-white/10 text-white/60">/</kbd> Buscar</span>
+                <span><kbd class="px-2 py-1 rounded bg-white/10 text-white/60">Esc</kbd> Fechar</span>
+                <span><kbd class="px-2 py-1 rounded bg-white/10 text-white/60">Tab</kbd> Navegar</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== UNIT DATA ====================
+        const unitData = {
+            comprimento: {
+                icon: 'fa-ruler',
+                color: 'from-blue-500 to-cyan-500',
+                name: 'Comprimento',
+                units: {
+                    'metro': { name: 'Metro', symbol: 'm', factor: 1, info: 'Unidade base do SI para comprimento. Definido pela velocidade da luz.' },
+                    'quilometro': { name: 'Quilômetro', symbol: 'km', factor: 0.001, info: '1000 metros. Usado para grandes distâncias.' },
+                    'centimetro': { name: 'Centímetro', symbol: 'cm', factor: 100, info: '1/100 de um metro.' },
+                    'milimetro': { name: 'Milímetro', symbol: 'mm', factor: 1000, info: '1/1000 de um metro.' },
+                    'micrometro': { name: 'Micrômetro', symbol: 'μm', factor: 1000000, info: 'Também chamado de mícron. 1/1000000 de metro.' },
+                    'nanometro': { name: 'Nanômetro', symbol: 'nm', factor: 1e9, info: 'Usado em nanotecnologia e física atômica.' },
+                    'milha': { name: 'Milha', symbol: 'mi', factor: 0.000621371, info: 'Unidade imperial. Usada nos EUA e Reino Unido.' },
+                    'jarda': { name: 'Jarda', symbol: 'yd', factor: 1.09361, info: 'Unidade imperial igual a 3 pés.' },
+                    'pe': { name: 'Pé', symbol: 'ft', factor: 3.28084, info: 'Unidade imperial igual a 12 polegadas.' },
+                    'polegada': { name: 'Polegada', symbol: 'in', factor: 39.3701, info: '2,54 centímetros exatos.' },
+                    'milha_nautica': { name: 'Milha Náutica', symbol: 'nmi', factor: 0.000539957, info: 'Usada em navegação marítima e aérea.' },
+                    'ano_luz': { name: 'Ano-luz', symbol: 'ly', factor: 1.057e-16, info: 'Distância que a luz percorre em um ano.' }
+                }
+            },
+            peso: {
+                icon: 'fa-weight-hanging',
+                color: 'from-orange-500 to-red-500',
+                name: 'Peso/Massa',
+                units: {
+                    'quilograma': { name: 'Quilograma', symbol: 'kg', factor: 1, info: 'Unidade base do SI para massa.' },
+                    'grama': { name: 'Grama', symbol: 'g', factor: 1000, info: '1/1000 de um quilograma.' },
+                    'miligrama': { name: 'Miligrama', symbol: 'mg', factor: 1000000, info: '1/1000 de um grama.' },
+                    'micrograma': { name: 'Micrograma', symbol: 'μg', factor: 1e9, info: '1/1000000 de um grama.' },
+                    'tonelada': { name: 'Tonelada', symbol: 't', factor: 0.001, info: '1000 quilogramas.' },
+                    'libra': { name: 'Libra', symbol: 'lb', factor: 2.20462, info: 'Unidade imperial comum nos EUA.' },
+                    'onca': { name: 'Onça', symbol: 'oz', factor: 35.274, info: '1/16 de uma libra.' },
+                    'stone': { name: 'Stone', symbol: 'st', factor: 0.157473, info: 'Usada no Reino Unido para peso corporal.' },
+                    'arroba': { name: 'Arroba', symbol: '@', factor: 0.0666667, info: 'Unidade tradicional brasileira. 15 kg.' },
+                    'quilate': { name: 'Quilate', symbol: 'ct', factor: 5000, info: 'Usado para pedras preciosas. 0,2 gramas.' }
+                }
+            },
+            temperatura: {
+                icon: 'fa-thermometer-half',
+                color: 'from-red-500 to-yellow-500',
+                name: 'Temperatura',
+                units: {
+                    'celsius': { name: 'Celsius', symbol: '°C', factor: 'special', info: 'Escala baseada em água: 0° congela, 100° ferve.' },
+                    'fahrenheit': { name: 'Fahrenheit', symbol: '°F', factor: 'special', info: 'Usada nos EUA. 32° congela, 212° ferve.' },
+                    'kelvin': { name: 'Kelvin', symbol: 'K', factor: 'special', info: 'Escala absoluta do SI. 0K = zero absoluto.' },
+                    'rankine': { name: 'Rankine', symbol: '°R', factor: 'special', info: 'Escala absoluta baseada em Fahrenheit.' }
+                },
+                special: true
+            },
+            volume: {
+                icon: 'fa-flask',
+                color: 'from-purple-500 to-pink-500',
+                name: 'Volume',
+                units: {
+                    'litro': { name: 'Litro', symbol: 'L', factor: 1, info: '1 decímetro cúbico.' },
+                    'mililitro': { name: 'Mililitro', symbol: 'mL', factor: 1000, info: '1/1000 de um litro.' },
+                    'metro_cubico': { name: 'Metro Cúbico', symbol: 'm³', factor: 0.001, info: '1000 litros.' },
+                    'centimetro_cubico': { name: 'Centímetro Cúbico', symbol: 'cm³', factor: 1000, info: 'Igual a 1 mililitro.' },
+                    'galao_us': { name: 'Galão (US)', symbol: 'gal', factor: 0.264172, info: 'Galão americano. ~3,785 litros.' },
+                    'galao_uk': { name: 'Galão (UK)', symbol: 'gal UK', factor: 0.219969, info: 'Galão imperial. ~4,546 litros.' },
+                    'pint_us': { name: 'Pint (US)', symbol: 'pt', factor: 2.11338, info: '1/8 de galão americano.' },
+                    'xicara': { name: 'Xícara', symbol: 'cup', factor: 4.22675, info: 'Medida culinária. ~237 mL.' },
+                    'colher_sopa': { name: 'Colher de Sopa', symbol: 'tbsp', factor: 67.628, info: '~15 mL.' },
+                    'colher_cha': { name: 'Colher de Chá', symbol: 'tsp', factor: 202.884, info: '~5 mL.' },
+                    'barril': { name: 'Barril (petróleo)', symbol: 'bbl', factor: 0.00628981, info: 'Barril de petróleo. ~159 litros.' }
+                }
+            },
+            area: {
+                icon: 'fa-vector-square',
+                color: 'from-green-500 to-teal-500',
+                name: 'Área',
+                units: {
+                    'metro_quadrado': { name: 'Metro Quadrado', symbol: 'm²', factor: 1, info: 'Unidade SI para área.' },
+                    'quilometro_quadrado': { name: 'Quilômetro Quadrado', symbol: 'km²', factor: 0.000001, info: '1 milhão de metros quadrados.' },
+                    'hectare': { name: 'Hectare', symbol: 'ha', factor: 0.0001, info: '10.000 metros quadrados.' },
+                    'acre': { name: 'Acre', symbol: 'ac', factor: 0.000247105, info: '~4.047 metros quadrados.' },
+                    'centimetro_quadrado': { name: 'Centímetro Quadrado', symbol: 'cm²', factor: 10000, info: '1/10000 de metro quadrado.' },
+                    'milimetro_quadrado': { name: 'Milímetro Quadrado', symbol: 'mm²', factor: 1000000, info: '1/1000000 de metro quadrado.' },
+                    'pe_quadrado': { name: 'Pé Quadrado', symbol: 'ft²', factor: 10.7639, info: 'Unidade imperial.' },
+                    'jarda_quadrada': { name: 'Jarda Quadrada', symbol: 'yd²', factor: 1.19599, info: '9 pés quadrados.' },
+                    'alqueire_sp': { name: 'Alqueire Paulista', symbol: 'alq', factor: 0.0000413223, info: '24.200 metros quadrados.' },
+                    'alqueire_mg': { name: 'Alqueire Mineiro', symbol: 'alq', factor: 0.0000206612, info: '48.400 metros quadrados.' }
+                }
+            },
+            tempo: {
+                icon: 'fa-clock',
+                color: 'from-indigo-500 to-blue-500',
+                name: 'Tempo',
+                units: {
+                    'segundo': { name: 'Segundo', symbol: 's', factor: 1, info: 'Unidade base do SI para tempo.' },
+                    'milissegundo': { name: 'Milissegundo', symbol: 'ms', factor: 1000, info: '1/1000 de segundo.' },
+                    'microssegundo': { name: 'Microssegundo', symbol: 'μs', factor: 1000000, info: '1/1000000 de segundo.' },
+                    'nanossegundo': { name: 'Nanossegundo', symbol: 'ns', factor: 1e9, info: 'Usado em eletrônica e computação.' },
+                    'minuto': { name: 'Minuto', symbol: 'min', factor: 1/60, info: '60 segundos.' },
+                    'hora': { name: 'Hora', symbol: 'h', factor: 1/3600, info: '3600 segundos.' },
+                    'dia': { name: 'Dia', symbol: 'd', factor: 1/86400, info: '24 horas.' },
+                    'semana': { name: 'Semana', symbol: 'sem', factor: 1/604800, info: '7 dias.' },
+                    'mes': { name: 'Mês', symbol: 'mês', factor: 1/2592000, info: '~30 dias.' },
+                    'ano': { name: 'Ano', symbol: 'ano', factor: 1/31536000, info: '365 dias.' },
+                    'decada': { name: 'Década', symbol: 'dec', factor: 1/315360000, info: '10 anos.' },
+                    'seculo': { name: 'Século', symbol: 'séc', factor: 1/3153600000, info: '100 anos.' }
+                }
+            },
+            velocidade: {
+                icon: 'fa-tachometer-alt',
+                color: 'from-yellow-500 to-orange-500',
+                name: 'Velocidade',
+                units: {
+                    'metro_segundo': { name: 'Metro por segundo', symbol: 'm/s', factor: 1, info: 'Unidade SI para velocidade.' },
+                    'km_hora': { name: 'Quilômetro por hora', symbol: 'km/h', factor: 3.6, info: 'Mais usada em veículos.' },
+                    'milha_hora': { name: 'Milha por hora', symbol: 'mph', factor: 2.23694, info: 'Usada nos EUA e Reino Unido.' },
+                    'no': { name: 'Nó', symbol: 'kn', factor: 1.94384, info: 'Usada em navegação. 1 milha náutica/hora.' },
+                    'pe_segundo': { name: 'Pé por segundo', symbol: 'ft/s', factor: 3.28084, info: 'Unidade imperial.' },
+                    'mach': { name: 'Mach', symbol: 'Ma', factor: 0.00293858, info: 'Velocidade do som. ~343 m/s ao nível do mar.' },
+                    'luz': { name: 'Velocidade da Luz', symbol: 'c', factor: 3.33564e-9, info: '299.792.458 m/s no vácuo.' }
+                }
+            },
+            dados: {
+                icon: 'fa-database',
+                color: 'from-cyan-500 to-blue-500',
+                name: 'Dados',
+                units: {
+                    'byte': { name: 'Byte', symbol: 'B', factor: 1, info: '8 bits.' },
+                    'kilobyte': { name: 'Kilobyte', symbol: 'KB', factor: 1/1024, info: '1024 bytes.' },
+                    'megabyte': { name: 'Megabyte', symbol: 'MB', factor: 1/1048576, info: '1024 kilobytes.' },
+                    'gigabyte': { name: 'Gigabyte', symbol: 'GB', factor: 1/1073741824, info: '1024 megabytes.' },
+                    'terabyte': { name: 'Terabyte', symbol: 'TB', factor: 1/1099511627776, info: '1024 gigabytes.' },
+                    'petabyte': { name: 'Petabyte', symbol: 'PB', factor: 1/1125899906842624, info: '1024 terabytes.' },
+                    'bit': { name: 'Bit', symbol: 'b', factor: 8, info: 'Menor unidade de informação.' },
+                    'kilobit': { name: 'Kilobit', symbol: 'Kb', factor: 8/1024, info: '1024 bits.' },
+                    'megabit': { name: 'Megabit', symbol: 'Mb', factor: 8/1048576, info: '1024 kilobits.' },
+                    'gigabit': { name: 'Gigabit', symbol: 'Gb', factor: 8/1073741824, info: '1024 megabits.' }
+                }
+            },
+            pressao: {
+                icon: 'fa-compress-arrows-alt',
+                color: 'from-rose-500 to-pink-500',
+                name: 'Pressão',
+                units: {
+                    'pascal': { name: 'Pascal', symbol: 'Pa', factor: 1, info: 'Unidade SI. 1 Newton por metro quadrado.' },
+                    'kilopascal': { name: 'Kilopascal', symbol: 'kPa', factor: 0.001, info: '1000 Pascals.' },
+                    'megapascal': { name: 'Megapascal', symbol: 'MPa', factor: 0.000001, info: '1 milhão de Pascals.' },
+                    'bar': { name: 'Bar', symbol: 'bar', factor: 0.00001, info: '100.000 Pascals.' },
+                    'milibar': { name: 'Milibar', symbol: 'mbar', factor: 0.01, info: 'Usado em meteorologia.' },
+                    'psi': { name: 'PSI', symbol: 'psi', factor: 0.000145038, info: 'Libras por polegada quadrada.' },
+                    'atmosfera': { name: 'Atmosfera', symbol: 'atm', factor: 9.8692e-6, info: 'Pressão ao nível do mar.' },
+                    'mmhg': { name: 'mmHg', symbol: 'mmHg', factor: 0.00750062, info: 'Milímetros de mercúrio.' },
+                    'torr': { name: 'Torr', symbol: 'Torr', factor: 0.00750062, info: 'Igual a 1 mmHg.' }
+                }
+            },
+            energia: {
+                icon: 'fa-bolt',
+                color: 'from-amber-500 to-yellow-500',
+                name: 'Energia',
+                units: {
+                    'joule': { name: 'Joule', symbol: 'J', factor: 1, info: 'Unidade SI. 1 Newton × 1 metro.' },
+                    'kilojoule': { name: 'Kilojoule', symbol: 'kJ', factor: 0.001, info: '1000 Joules.' },
+                    'caloria': { name: 'Caloria', symbol: 'cal', factor: 0.239006, info: 'Energia para aquecer 1g de água em 1°C.' },
+                    'kilocaloria': { name: 'Kilocaloria', symbol: 'kcal', factor: 0.000239006, info: '1000 calorias. Usada em nutrição.' },
+                    'watt_hora': { name: 'Watt-hora', symbol: 'Wh', factor: 0.000277778, info: '1 Watt durante 1 hora.' },
+                    'kilowatt_hora': { name: 'Kilowatt-hora', symbol: 'kWh', factor: 2.77778e-7, info: 'Usado em contas de energia.' },
+                    'eletron_volt': { name: 'Elétron-volt', symbol: 'eV', factor: 6.242e18, info: 'Usado em física de partículas.' },
+                    'btu': { name: 'BTU', symbol: 'BTU', factor: 0.000947817, info: 'British Thermal Unit.' },
+                    'erg': { name: 'Erg', symbol: 'erg', factor: 1e7, info: 'Unidade CGS de energia.' }
+                }
+            },
+            angulo: {
+                icon: 'fa-drafting-compass',
+                color: 'from-violet-500 to-purple-500',
+                name: 'Ângulo',
+                units: {
+                    'grau': { name: 'Grau', symbol: '°', factor: 1, info: '1/360 de uma volta completa.' },
+                    'radiano': { name: 'Radiano', symbol: 'rad', factor: Math.PI/180, info: 'Unidade SI. ~57,3 graus.' },
+                    'gradiano': { name: 'Gradiano', symbol: 'gon', factor: 10/9, info: '1/400 de uma volta. Usado em topografia.' },
+                    'minuto_arco': { name: 'Minuto de Arco', symbol: "'", factor: 60, info: '1/60 de um grau.' },
+                    'segundo_arco': { name: 'Segundo de Arco', symbol: '"', factor: 3600, info: '1/60 de um minuto de arco.' },
+                    'revolucao': { name: 'Revolução', symbol: 'rev', factor: 1/360, info: 'Uma volta completa. 360 graus.' }
+                }
+            },
+            potencia: {
+                icon: 'fa-car-battery',
+                color: 'from-emerald-500 to-green-500',
+                name: 'Potência',
+                units: {
+                    'watt': { name: 'Watt', symbol: 'W', factor: 1, info: 'Unidade SI. 1 Joule por segundo.' },
+                    'kilowatt': { name: 'Kilowatt', symbol: 'kW', factor: 0.001, info: '1000 Watts.' },
+                    'megawatt': { name: 'Megawatt', symbol: 'MW', factor: 0.000001, info: '1 milhão de Watts.' },
+                    'cavalo_vapor': { name: 'Cavalo-vapor', symbol: 'cv', factor: 0.00135962, info: 'Unidade métrica. ~735,5 Watts.' },
+                    'horsepower': { name: 'Horsepower', symbol: 'hp', factor: 0.00134102, info: 'Unidade imperial. ~745,7 Watts.' },
+                    'btu_hora': { name: 'BTU/hora', symbol: 'BTU/h', factor: 3.41214, info: 'Usado em ar condicionado.' },
+                    'caloria_segundo': { name: 'Caloria/segundo', symbol: 'cal/s', factor: 0.239006, info: '1 caloria por segundo.' }
+                }
+            },
+            frequencia: {
+                icon: 'fa-wave-square',
+                color: 'from-pink-500 to-rose-500',
+                name: 'Frequência',
+                units: {
+                    'hertz': { name: 'Hertz', symbol: 'Hz', factor: 1, info: 'Unidade SI. 1 ciclo por segundo.' },
+                    'kilohertz': { name: 'Kilohertz', symbol: 'kHz', factor: 0.001, info: '1000 Hertz.' },
+                    'megahertz': { name: 'Megahertz', symbol: 'MHz', factor: 0.000001, info: '1 milhão de Hertz.' },
+                    'gigahertz': { name: 'Gigahertz', symbol: 'GHz', factor: 1e-9, info: '1 bilhão de Hertz.' },
+                    'rpm': { name: 'RPM', symbol: 'rpm', factor: 60, info: 'Rotações por minuto.' },
+                    'rps': { name: 'RPS', symbol: 'rps', factor: 1, info: 'Rotações por segundo.' }
+                }
+            },
+            combustivel: {
+                icon: 'fa-gas-pump',
+                color: 'from-slate-500 to-gray-500',
+                name: 'Consumo',
+                units: {
+                    'km_litro': { name: 'Km por litro', symbol: 'km/L', factor: 1, info: 'Quilômetros por litro.' },
+                    'litro_100km': { name: 'L/100km', symbol: 'L/100km', factor: 'special_fuel', info: 'Litros por 100 quilômetros.' },
+                    'mpg_us': { name: 'MPG (US)', symbol: 'mpg', factor: 2.35215, info: 'Milhas por galão americano.' },
+                    'mpg_uk': { name: 'MPG (UK)', symbol: 'mpg UK', factor: 2.82481, info: 'Milhas por galão imperial.' }
+                },
+                special: 'fuel'
+            }
+        };
+
+        // ==================== STATE ====================
+        let currentCategory = 'comprimento';
+        let history = JSON.parse(localStorage.getItem('conversionHistory')) || [];
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let usageStats = JSON.parse(localStorage.getItem('usageStats')) || {};
+        let isLightMode = localStorage.getItem('theme') === 'light';
+        let settings = JSON.parse(localStorage.getItem('settings')) || {
+            precision: 8,
+            scientificNotation: false,
+            thousandsSeparator: true,
+            sounds: false
+        };
+        let calcExpression = '';
+        let calcResult = '0';
+
+        // ==================== INIT ====================
+        function init() {
+            applyTheme();
+            applySettings();
+            renderCategories();
+            selectCategory('comprimento');
+            setupEventListeners();
+            updateHistoryUI();
+            updateFavoritesUI();
+            updateStatsUI();
+            updatePopularConversions();
+        }
+
+        // ==================== THEME ====================
+        function applyTheme() {
+            if (isLightMode) {
+                document.body.classList.add('light-mode');
+                document.getElementById('themeIcon').className = 'fas fa-sun';
+            } else {
+                document.body.classList.remove('light-mode');
+                document.getElementById('themeIcon').className = 'fas fa-moon';
+            }
+        }
+
+        // ==================== SETTINGS ====================
+        function applySettings() {
+            document.getElementById('precisionSlider').value = settings.precision;
+            document.getElementById('precisionValue').textContent = settings.precision;
+            
+            updateToggleButton('scientificToggle', settings.scientificNotation);
+            updateToggleButton('thousandsToggle', settings.thousandsSeparator);
+            updateToggleButton('soundToggle', settings.sounds);
+        }
+
+        function updateToggleButton(id, isOn) {
+            const btn = document.getElementById(id);
+            const dot = btn.querySelector('div');
+            if (isOn) {
+                btn.classList.remove('bg-white/10');
+                btn.classList.add('bg-indigo-500');
+                dot.classList.remove('left-1');
+                dot.classList.add('right-1');
+            } else {
+                btn.classList.add('bg-white/10');
+                btn.classList.remove('bg-indigo-500');
+                dot.classList.add('left-1');
+                dot.classList.remove('right-1');
+            }
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        // ==================== CATEGORIES ====================
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+            
+            Object.entries(unitData).forEach(([key, cat]) => {
+                const card = document.createElement('button');
+                card.className = 'category-card flex-shrink-0 glass rounded-2xl p-4 min-w-[100px] text-center';
+                card.dataset.category = key;
+                card.innerHTML = `
+                    <div class="cat-icon w-12 h-12 rounded-xl bg-gradient-to-r ${cat.color} flex items-center justify-center mx-auto mb-2 shadow-lg">
+                        <i class="fas ${cat.icon} text-white text-lg"></i>
+                    </div>
+                    <span class="text-white text-sm font-medium">${cat.name}</span>
+                `;
+                card.onclick = () => selectCategory(key);
+                container.appendChild(card);
+            });
+            
+            document.getElementById('totalCategories').textContent = Object.keys(unitData).length;
+        }
+
+        function selectCategory(category) {
+            currentCategory = category;
+            
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+                if (card.dataset.category === category) {
+                    card.classList.add('active');
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            });
+
+            const units = unitData[category].units;
+            const selects = ['fromUnit', 'toUnit', 'multiFromUnit', 'compareFromUnit'];
+            
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (!select) return;
+                select.innerHTML = '';
+                Object.entries(units).forEach(([key, unit]) => {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = `${unit.name} (${unit.symbol})`;
+                    select.appendChild(option);
+                });
+            });
+
+            const unitKeys = Object.keys(units);
+            if (unitKeys.length > 1) {
+                document.getElementById('toUnit').value = unitKeys[1];
+            }
+
+            updateQuickRef();
+            updateTable();
+            updateUnitInfo();
+            convert();
+            convertMulti();
+            convertCompare();
+        }
+
+        // ==================== CONVERSION ====================
+        function convertTemperature(value, from, to) {
+            let celsius;
+            switch(from) {
+                case 'celsius': celsius = value; break;
+                case 'fahrenheit': celsius = (value - 32) * 5/9; break;
+                case 'kelvin': celsius = value - 273.15; break;
+                case 'rankine': celsius = (value - 491.67) * 5/9; break;
+            }
+            switch(to) {
+                case 'celsius': return celsius;
+                case 'fahrenheit': return celsius * 9/5 + 32;
+                case 'kelvin': return celsius + 273.15;
+                case 'rankine': return (celsius + 273.15) * 9/5;
+            }
+        }
+
+        function convertFuel(value, from, to) {
+            // Convert to km/L first
+            let kmL;
+            switch(from) {
+                case 'km_litro': kmL = value; break;
+                case 'litro_100km': kmL = 100 / value; break;
+                case 'mpg_us': kmL = value * 0.425144; break;
+                case 'mpg_uk': kmL = value * 0.354006; break;
+            }
+            switch(to) {
+                case 'km_litro': return kmL;
+                case 'litro_100km': return 100 / kmL;
+                case 'mpg_us': return kmL / 0.425144;
+                case 'mpg_uk': return kmL / 0.354006;
+            }
+        }
+
+        function convert() {
+            const inputRaw = document.getElementById('inputValue').value;
+            const inputValue = parseFloat(inputRaw.replace(',', '.')) || 0;
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+            const category = unitData[currentCategory];
+            
+            let result;
+            if (category.special === true) {
+                result = convertTemperature(inputValue, fromUnit, toUnit);
+            } else if (category.special === 'fuel') {
+                result = convertFuel(inputValue, fromUnit, toUnit);
+            } else {
+                const fromFactor = category.units[fromUnit].factor;
+                const toFactor = category.units[toUnit].factor;
+                const baseValue = inputValue / fromFactor;
+                result = baseValue * toFactor;
+            }
+            
+            const formattedResult = formatNumber(result);
+            document.getElementById('resultValue').textContent = formattedResult;
+            
+            updateFormula(inputValue, fromUnit, result, toUnit);
+            addToHistory(inputValue, fromUnit, result, toUnit);
+            trackUsage(currentCategory, fromUnit, toUnit);
+            updateUnitInfo();
+        }
+
+        function convertMulti() {
+            const inputRaw = document.getElementById('multiInputValue').value;
+            const inputValue = parseFloat(inputRaw.replace(',', '.')) || 0;
+            const fromUnit = document.getElementById('multiFromUnit').value;
+            const category = unitData[currentCategory];
+            const container = document.getElementById('multiResults');
+            
+            container.innerHTML = '';
+            
+            Object.entries(category.units).forEach(([key, unit]) => {
+                let result;
+                if (category.special === true) {
+                    result = convertTemperature(inputValue, fromUnit, key);
+                } else if (category.special === 'fuel') {
+                    result = convertFuel(inputValue, fromUnit, key);
+                } else {
+                    const fromFactor = category.units[fromUnit].factor;
+                    const toFactor = unit.factor;
+                    const baseValue = inputValue / fromFactor;
+                    result = baseValue * toFactor;
+                }
+                
+                const div = document.createElement('div');
+                div.className = 'multi-result flex items-center justify-between p-3 rounded-xl bg-white/5 cursor-pointer';
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-white/60 text-sm">${unit.name}</span>
+                        <span class="text-white/40 text-xs">(${unit.symbol})</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-white font-semibold">${formatNumber(result)}</span>
+                        <button class="w-8 h-8 rounded-lg bg-white/10 text-white/40 hover:text-cyan-400 hover:bg-cyan-500/20 transition-all flex items-center justify-center copy-btn" data-value="${result}">
+                            <i class="fas fa-copy text-xs"></i>
+                        </button>
+                    </div>
+                `;
+                div.querySelector('.copy-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    copyToClipboard(formatNumber(result));
+                });
+                container.appendChild(div);
+            });
+        }
+
+        function convertCompare() {
+            const inputRaw = document.getElementById('compareInputValue').value;
+            const inputValue = parseFloat(inputRaw.replace(',', '.')) || 0;
+            const fromUnit = document.getElementById('compareFromUnit').value;
+            const category = unitData[currentCategory];
+            const container = document.getElementById('compareResults');
+            
+            container.innerHTML = '';
+            
+            // Find max value for scaling
+            let maxVal = 0;
+            const results = [];
+            
+            Object.entries(category.units).forEach(([key, unit]) => {
+                let result;
+                if (category.special === true) {
+                    result = convertTemperature(inputValue, fromUnit, key);
+                } else if (category.special === 'fuel') {
+                    result = convertFuel(inputValue, fromUnit, key);
+                } else {
+                    const fromFactor = category.units[fromUnit].factor;
+                    const toFactor = unit.factor;
+                    const baseValue = inputValue / fromFactor;
+                    result = baseValue * toFactor;
+                }
+                results.push({ key, unit, result });
+                if (Math.abs(result) > maxVal) maxVal = Math.abs(result);
+            });
+            
+            results.forEach(({ key, unit, result }) => {
+                const percentage = maxVal > 0 ? (Math.abs(result) / maxVal) * 100 : 0;
+                const div = document.createElement('div');
+                div.className = 'p-3 rounded-xl bg-white/5';
+                div.innerHTML = `
+                    <div class="flex justify-between mb-2">
+                        <span class="text-white/80 text-sm">${unit.name}</span>
+                        <span class="text-cyan-400 font-semibold text-sm">${formatNumber(result)} ${unit.symbol}</span>
+                    </div>
+                    <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                        <div class="comparison-bar h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" style="width: ${percentage}%"></div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function formatNumber(num) {
+            if (num === 0) return '0';
+            
+            const absNum = Math.abs(num);
+            
+            if (settings.scientificNotation && (absNum < 0.0001 || absNum >= 1000000)) {
+                return num.toExponential(settings.precision);
+            }
+            
+            if (settings.thousandsSeparator) {
+                return num.toLocaleString('pt-BR', { maximumFractionDigits: settings.precision });
+            }
+            
+            return num.toFixed(settings.precision).replace(/\.?0+$/, '');
+        }
+
+        function updateFormula(v1, u1, v2, u2) {
+            const cat = unitData[currentCategory];
+            const from = cat.units[u1];
+            const to = cat.units[u2];
+            document.getElementById('formula').textContent = 
+                `${formatNumber(v1)} ${from.symbol} = ${formatNumber(v2)} ${to.symbol}`;
+        }
+
+        function swapUnits() {
+            const from = document.getElementById('fromUnit');
+            const to = document.getElementById('toUnit');
+            const result = document.getElementById('resultValue').textContent;
+            
+            [from.value, to.value] = [to.value, from.value];
+            
+            const numResult = parseFloat(result.replace(/\./g, '').replace(',', '.'));
+            if (!isNaN(numResult)) {
+                document.getElementById('inputValue').value = numResult;
+            }
+            
+            convert();
+            updateTable();
+            playSound('swap');
+        }
+
+        // ==================== UI UPDATES ====================
+        function updateQuickRef() {
+            const container = document.getElementById('quickRef');
+            const cat = unitData[currentCategory];
+            const units = Object.entries(cat.units).slice(0, 5);
+            const baseUnit = Object.keys(cat.units)[0];
+            
+            container.innerHTML = '';
+            
+            units.forEach(([key, unit]) => {
+                if (key === baseUnit) return;
+                
+                let value;
+                if (cat.special === true) {
+                    value = convertTemperature(1, baseUnit, key);
+                } else if (cat.special === 'fuel') {
+                    value = convertFuel(1, baseUnit, key);
+                } else {
+                    value = unit.factor;
+                }
+                
+                const div = document.createElement('div');
+                div.className = 'quick-card flex items-center justify-between p-3 rounded-xl bg-white/5 cursor-pointer';
+                div.innerHTML = `
+                    <span class="text-white/60 text-sm">1 ${cat.units[baseUnit].symbol}</span>
+                    <span class="text-white font-medium">${formatNumber(value)} ${unit.symbol}</span>
+                `;
+                div.onclick = () => {
+                    document.getElementById('fromUnit').value = baseUnit;
+                    document.getElementById('toUnit').value = key;
+                    convert();
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function updateTable() {
+            const tbody = document.getElementById('tableBody');
+            const cat = unitData[currentCategory];
+            const inputRaw = document.getElementById('inputValue').value;
+            const inputValue = parseFloat(inputRaw.replace(',', '.')) || 1;
+            const fromUnit = document.getElementById('fromUnit').value;
+            
+            tbody.innerHTML = '';
+            
+            Object.entries(cat.units).forEach(([key, unit]) => {
+                let result;
+                if (cat.special === true) {
+                    result = convertTemperature(inputValue, fromUnit, key);
+                } else if (cat.special === 'fuel') {
+                    result = convertFuel(inputValue, fromUnit, key);
+                } else {
+                    const fromFactor = cat.units[fromUnit].factor;
+                    const baseValue = inputValue / fromFactor;
+                    result = baseValue * unit.factor;
+                }
+                
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-white/5 hover:bg-white/5 transition-all';
+                tr.innerHTML = `
+                    <td class="py-3 px-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-white">${unit.name}</span>
+                            <span class="text-white/40 text-sm">(${unit.symbol})</span>
+                        </div>
+                    </td>
+                    <td class="py-3 px-4 text-right">
+                        <span class="text-cyan-400 font-semibold">${formatNumber(result)}</span>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        <button class="copy-table-btn w-8 h-8 rounded-lg bg-white/10 text-white/40 hover:text-cyan-400 hover:bg-cyan-500/20 transition-all inline-flex items-center justify-center" data-value="${result}">
+                            <i class="fas fa-copy text-xs"></i>
+                        </button>
+                    </td>
+                `;
+                tr.querySelector('.copy-table-btn').addEventListener('click', function() {
+                    copyToClipboard(formatNumber(parseFloat(this.dataset.value)));
+                });
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateUnitInfo() {
+            const fromUnit = document.getElementById('fromUnit').value;
+            const cat = unitData[currentCategory];
+            const unit = cat.units[fromUnit];
+            
+            const panel = document.getElementById('unitInfoPanel');
+            panel.innerHTML = `
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-r ${cat.color} flex items-center justify-center">
+                        <span class="text-white font-bold">${unit.symbol}</span>
+                    </div>
+                    <div>
+                        <div class="text-white font-medium">${unit.name}</div>
+                        <div class="text-white/40 text-xs">${cat.name}</div>
+                    </div>
+                </div>
+                <p class="text-white/60 text-sm">${unit.info || 'Sem informações adicionais.'}</p>
+            `;
+            
+            document.getElementById('fromUnitInfo').textContent = unit.info || 'Sem informações';
+        }
+
+        function updateStatsUI() {
+            const totalConversions = Object.values(usageStats).reduce((a, b) => a + (b.count || 0), 0);
+            document.getElementById('totalConversions').textContent = totalConversions;
+            document.getElementById('favCount').textContent = favorites.length;
+            document.getElementById('favCountSidebar').textContent = `${favorites.length} itens`;
+        }
+
+        function updatePopularConversions() {
+            const container = document.getElementById('popularConversions');
+            
+            // Get top 5 conversions
+            const sorted = Object.entries(usageStats)
+                .sort((a, b) => (b[1].count || 0) - (a[1].count || 0))
+                .slice(0, 5);
+            
+            if (sorted.length === 0) {
+                container.innerHTML = '<p class="text-white/40 text-sm text-center py-4">Use o conversor para ver as mais usadas</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            sorted.forEach(([key, data]) => {
+                const [cat, from, to] = key.split('|');
+                if (!unitData[cat]) return;
+                
+                const catData = unitData[cat];
+                const fromUnit = catData.units[from];
+                const toUnit = catData.units[to];
+                
+                if (!fromUnit || !toUnit) return;
+                
+                const div = document.createElement('div');
+                div.className = 'quick-card flex items-center justify-between p-2 rounded-lg bg-white/5 cursor-pointer text-sm';
+                div.innerHTML = `
+                    <span class="text-white/80">${fromUnit.symbol} → ${toUnit.symbol}</span>
+                    <span class="text-white/40 text-xs">${data.count}x</span>
+                `;
+                div.onclick = () => {
+                    selectCategory(cat);
+                    setTimeout(() => {
+                        document.getElementById('fromUnit').value = from;
+                        document.getElementById('toUnit').value = to;
+                        convert();
+                    }, 100);
+                };
+                container.appendChild(div);
+            });
+        }
+
+        // ==================== HISTORY ====================
+        function addToHistory(v1, u1, v2, u2) {
+            if (v1 === 0) return;
+            
+            const cat = unitData[currentCategory];
+            const entry = {
+                id: Date.now(),
+                category: currentCategory,
+                categoryName: cat.name,
+                from: { value: v1, unit: u1, name: cat.units[u1].name, symbol: cat.units[u1].symbol },
+                to: { value: v2, unit: u2, name: cat.units[u2].name, symbol: cat.units[u2].symbol },
+                timestamp: new Date().toISOString()
+            };
+            
+            // Avoid duplicates
+            const isDuplicate = history.length > 0 && 
+                history[0].from.value === v1 && 
+                history[0].from.unit === u1 && 
+                history[0].to.unit === u2;
+            
+            if (!isDuplicate) {
+                history = [entry, ...history.slice(0, 99)];
+                localStorage.setItem('conversionHistory', JSON.stringify(history));
+                updateHistoryUI();
+            }
+        }
+
+        function updateHistoryUI() {
+            const container = document.getElementById('historyList');
+            const badge = document.getElementById('historyBadge');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<p class="text-white/40 text-sm text-center py-8">Nenhuma conversão ainda</p>';
+                badge.classList.add('hidden');
+                return;
+            }
+            
+            badge.textContent = history.length > 99 ? '99+' : history.length;
+            badge.classList.remove('hidden');
+            
+            container.innerHTML = '';
+            history.slice(0, 30).forEach(entry => {
+                const div = document.createElement('div');
+                div.className = 'history-item p-3 rounded-xl bg-white/5 cursor-pointer';
+                div.innerHTML = `
+                    <div class="flex items-center gap-2 text-xs text-white/40 mb-1">
+                        <span>${entry.categoryName}</span>
+                        <span>•</span>
+                        <span>${new Date(entry.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                    <div class="text-white text-sm">
+                        ${formatNumber(entry.from.value)} ${entry.from.symbol} → ${formatNumber(entry.to.value)} ${entry.to.symbol}
+                    </div>
+                `;
+                div.onclick = () => {
+                    selectCategory(entry.category);
+                    setTimeout(() => {
+                        document.getElementById('inputValue').value = entry.from.value;
+                        document.getElementById('fromUnit').value = entry.from.unit;
+                        document.getElementById('toUnit').value = entry.to.unit;
+                        convert();
+                        toggleHistory();
+                    }, 100);
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function toggleHistory() {
+            const panel = document.getElementById('historyPanel');
+            const overlay = document.getElementById('historyOverlay');
+            panel.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function clearHistory() {
+            if (confirm('Tem certeza que deseja limpar todo o histórico?')) {
+                history = [];
+                localStorage.removeItem('conversionHistory');
+                updateHistoryUI();
+                showToast('Histórico limpo!', 'success');
+            }
+        }
+
+        function exportHistory() {
+            if (history.length === 0) {
+                showToast('Nenhum histórico para exportar', 'info');
+                return;
+            }
+            
+            let csv = 'Data,Categoria,De,Valor Original,Para,Valor Convertido\n';
+            history.forEach(entry => {
+                csv += `"${new Date(entry.timestamp).toLocaleString('pt-BR')}","${entry.categoryName}","${entry.from.name}",${entry.from.value},"${entry.to.name}",${entry.to.value}\n`;
+            });
+            
+            downloadFile(csv, 'historico-conversoes.csv', 'text/csv');
+            showToast('Histórico exportado!', 'success');
+        }
+
+        // ==================== FAVORITES ====================
+        function addCurrentToFavorites() {
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+            const cat = unitData[currentCategory];
+            
+            const fav = {
+                id: Date.now(),
+                category: currentCategory,
+                categoryName: cat.name,
+                from: { unit: fromUnit, name: cat.units[fromUnit].name, symbol: cat.units[fromUnit].symbol },
+                to: { unit: toUnit, name: cat.units[toUnit].name, symbol: cat.units[toUnit].symbol }
+            };
+            
+            const exists = favorites.some(f => 
+                f.category === fav.category && 
+                f.from.unit === fav.from.unit && 
+                f.to.unit === fav.to.unit
+            );
+            
+            if (!exists) {
+                favorites = [fav, ...favorites.slice(0, 19)];
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                updateFavoritesUI();
+                updateStatsUI();
+                showToast('Favorito adicionado!', 'success');
+                playSound('favorite');
+            } else {
+                showToast('Já está nos favoritos', 'info');
+            }
+        }
+
+        function updateFavoritesUI() {
+            const container = document.getElementById('favorites');
+            
+            if (favorites.length === 0) {
+                container.innerHTML = '<p class="text-white/40 text-sm text-center py-4">Clique em ★ para adicionar</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            favorites.forEach(fav => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between p-2 rounded-lg bg-white/5 hover:bg-white/10 cursor-pointer transition-all';
+                div.innerHTML = `
+                    <div class="flex-1" onclick="loadFavorite('${fav.category}', '${fav.from.unit}', '${fav.to.unit}')">
+                        <div class="text-white text-sm">${fav.from.symbol} → ${fav.to.symbol}</div>
+                        <div class="text-white/40 text-xs">${fav.categoryName}</div>
+                    </div>
+                    <button class="w-6 h-6 rounded text-white/30 hover:text-red-400 transition-all" onclick="event.stopPropagation(); removeFavorite(${fav.id})">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function loadFavorite(category, from, to) {
+            selectCategory(category);
+            setTimeout(() => {
+                document.getElementById('fromUnit').value = from;
+                document.getElementById('toUnit').value = to;
+                convert();
+            }, 100);
+        }
+
+        function removeFavorite(id) {
+            favorites = favorites.filter(f => f.id !== id);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoritesUI();
+            updateStatsUI();
+        }
+
+        // ==================== TRACKING ====================
+        function trackUsage(category, from, to) {
+            const key = `${category}|${from}|${to}`;
+            if (!usageStats[key]) {
+                usageStats[key] = { count: 0 };
+            }
+            usageStats[key].count++;
+            localStorage.setItem('usageStats', JSON.stringify(usageStats));
+            updateStatsUI();
+            updatePopularConversions();
+        }
+
+        // ==================== SEARCH ====================
+        function handleSearch() {
+            const query = document.getElementById('searchUnits').value.toLowerCase().trim();
+            const results = document.getElementById('searchResults');
+            
+            if (!query) {
+                results.classList.add('hidden');
+                return;
+            }
+            
+            results.innerHTML = '';
+            let found = false;
+            
+            Object.entries(unitData).forEach(([catKey, cat]) => {
+                Object.entries(cat.units).forEach(([unitKey, unit]) => {
+                    const matchName = unit.name.toLowerCase().includes(query);
+                    const matchSymbol = unit.symbol.toLowerCase().includes(query);
+                    const matchCategory = cat.name.toLowerCase().includes(query);
+                    
+                    if (matchName || matchSymbol || matchCategory) {
+                        found = true;
+                        const div = document.createElement('div');
+                        div.className = 'p-3 hover:bg-white/10 cursor-pointer transition-all border-b border-white/5 last:border-0';
+                        div.innerHTML = `
+                            <div class="text-white font-medium">${unit.name} <span class="text-cyan-400">(${unit.symbol})</span></div>
+                            <div class="text-white/40 text-xs flex items-center gap-1">
+                                <i class="fas ${cat.icon}"></i>
+                                ${cat.name}
+                            </div>
+                        `;
+                        div.onclick = () => {
+                            selectCategory(catKey);
+                            setTimeout(() => {
+                                document.getElementById('fromUnit').value = unitKey;
+                                convert();
+                            }, 100);
+                            results.classList.add('hidden');
+                            document.getElementById('searchUnits').value = '';
+                        };
+                        results.appendChild(div);
+                    }
+                });
+            });
+            
+            if (!found) {
+                results.innerHTML = '<p class="p-4 text-white/40 text-center">Nenhum resultado encontrado</p>';
+            }
+            
+            results.classList.remove('hidden');
+        }
+
+        // ==================== VOICE ====================
+        function startVoiceInput() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                showToast('Seu navegador não suporta entrada por voz', 'error');
+                return;
+            }
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            
+            recognition.lang = 'pt-BR';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            
+            const btn = document.getElementById('voiceBtn');
+            btn.classList.add('listening');
+            
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                const number = parseFloat(transcript.replace(/[^\d.,]/g, '').replace(',', '.'));
+                
+                if (!isNaN(number)) {
+                    document.getElementById('inputValue').value = number;
+                    convert();
+                    updateTable();
+                    showToast(`Reconhecido: ${number}`, 'success');
+                } else {
+                    showToast(`Não entendi: "${transcript}"`, 'info');
+                }
+            };
+            
+            recognition.onerror = (event) => {
+                showToast('Erro no reconhecimento de voz', 'error');
+            };
+            
+            recognition.onend = () => {
+                btn.classList.remove('listening');
+            };
+            
+            recognition.start();
+            showToast('Fale o número...', 'info');
+        }
+
+        // ==================== CALCULATOR ====================
+        function calcInput(val) {
+            if (calcResult !== '0' && !isNaN(parseFloat(calcResult)) && '0123456789.'.includes(val)) {
+                calcExpression = '';
+                calcResult = '';
+            }
+            calcExpression += val;
+            document.getElementById('calcExpression').textContent = calcExpression;
+        }
+
+        function calcClear() {
+            calcExpression = '';
+            calcResult = '0';
+            document.getElementById('calcDisplay').textContent = '0';
+            document.getElementById('calcExpression').textContent = '';
+        }
+
+        function calcBackspace() {
+            calcExpression = calcExpression.slice(0, -1);
+            document.getElementById('calcExpression').textContent = calcExpression;
+        }
+
+        function calcEquals() {
+            try {
+                calcResult = eval(calcExpression.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-'));
+                document.getElementById('calcDisplay').textContent = formatNumber(calcResult);
+                calcExpression = calcResult.toString();
+            } catch (e) {
+                document.getElementById('calcDisplay').textContent = 'Erro';
+                calcResult = '0';
+            }
+        }
+
+        function closeCalculator() {
+            document.getElementById('calculatorModal').classList.add('hidden');
+        }
+
+        // ==================== SHARE ====================
+        function openShare() {
+            const inputValue = document.getElementById('inputValue').value;
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+            const result = document.getElementById('resultValue').textContent;
+            const cat = unitData[currentCategory];
+            
+            const text = `${inputValue} ${cat.units[fromUnit].symbol} = ${result} ${cat.units[toUnit].symbol}`;
+            document.getElementById('shareText').textContent = text;
+            document.getElementById('shareModal').classList.remove('hidden');
+        }
+
+        function closeShare() {
+            document.getElementById('shareModal').classList.add('hidden');
+        }
+
+        function shareVia(platform) {
+            const text = document.getElementById('shareText').textContent;
+            const url = window.location.href;
+            
+            let shareUrl;
+            switch (platform) {
+                case 'whatsapp':
+                    shareUrl = `https://wa.me/?text=${encodeURIComponent(text + '\n\nConvertido com UniConvert Pro')}`;
+                    break;
+                case 'telegram':
+                    shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+                    break;
+                case 'email':
+                    shareUrl = `mailto:?subject=Conversão de Unidades&body=${encodeURIComponent(text + '\n\n' + url)}`;
+                    break;
+            }
+            
+            window.open(shareUrl, '_blank');
+            closeShare();
+        }
+
+        function copyShareLink() {
+            const text = document.getElementById('shareText').textContent;
+            copyToClipboard(text);
+            closeShare();
+        }
+
+        // ==================== EXPORT ====================
+        function exportTable() {
+            const cat = unitData[currentCategory];
+            const inputRaw = document.getElementById('inputValue').value;
+            const inputValue = parseFloat(inputRaw.replace(',', '.')) || 1;
+            const fromUnit = document.getElementById('fromUnit').value;
+            
+            let csv = `Conversão de ${inputValue} ${cat.units[fromUnit].name}\n\n`;
+            csv += 'Unidade,Símbolo,Valor\n';
+            
+            Object.entries(cat.units).forEach(([key, unit]) => {
+                let result;
+                if (cat.special === true) {
+                    result = convertTemperature(inputValue, fromUnit, key);
+                } else if (cat.special === 'fuel') {
+                    result = convertFuel(inputValue, fromUnit, key);
+                } else {
+                    const fromFactor = cat.units[fromUnit].factor;
+                    const baseValue = inputValue / fromFactor;
+                    result = baseValue * unit.factor;
+                }
+                csv += `"${unit.name}","${unit.symbol}",${result}\n`;
+            });
+            
+            downloadFile(csv, `conversao-${cat.name.toLowerCase()}.csv`, 'text/csv');
+            showToast('Tabela exportada!', 'success');
+        }
+
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // ==================== UTILITIES ====================
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copiado!', 'success');
+                playSound('copy');
+            });
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                info: 'fa-info-circle'
+            };
+            
+            const colors = {
+                success: 'text-green-400',
+                error: 'text-red-400',
+                info: 'text-cyan-400'
+            };
+            
+            toast.className = `copied-toast px-4 py-3 rounded-xl glass-strong flex items-center gap-2 ${colors[type]}`;
+            toast.innerHTML = `
+                <i class="fas ${icons[type]}"></i>
+                <span class="text-white text-sm">${message}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        function playSound(type) {
+            if (!settings.sounds) return;
+            // Sound effects can be added here
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        function setupEventListeners() {
+            // Input events
+            document.getElementById('inputValue').addEventListener('input', () => { 
+                convert(); 
+                updateTable(); 
+            });
+            document.getElementById('fromUnit').addEventListener('change', () => { 
+                convert(); 
+                updateTable(); 
+                updateUnitInfo();
+            });
+            document.getElementById('toUnit').addEventListener('change', convert);
+            document.getElementById('swapBtn').addEventListener('click', swapUnits);
+            document.getElementById('clearInput').addEventListener('click', () => {
+                document.getElementById('inputValue').value = '';
+                convert();
+            });
+
+            // Multi conversion
+            document.getElementById('multiInputValue').addEventListener('input', convertMulti);
+            document.getElementById('multiFromUnit').addEventListener('change', convertMulti);
+            
+            // Compare conversion
+            document.getElementById('compareInputValue').addEventListener('input', convertCompare);
+            document.getElementById('compareFromUnit').addEventListener('change', convertCompare);
+
+            // Copy buttons
+            document.getElementById('copyResult').addEventListener('click', () => {
+                copyToClipboard(document.getElementById('resultValue').textContent);
+            });
+            document.getElementById('copyFormula').addEventListener('click', () => {
+                copyToClipboard(document.getElementById('formula').textContent);
+            });
+            document.getElementById('shareResult').addEventListener('click', openShare);
+            
+            // Copy all multi
+            document.getElementById('copyAllMulti').addEventListener('click', () => {
+                const results = [];
+                document.querySelectorAll('#multiResults .multi-result').forEach(el => {
+                    const name = el.querySelector('.text-white\\/60').textContent;
+                    const value = el.querySelector('.font-semibold').textContent;
+                    results.push(`${name}: ${value}`);
+                });
+                copyToClipboard(results.join('\n'));
+            });
+
+            // Tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const tab = btn.dataset.tab;
+                    document.getElementById('singleTab').classList.toggle('hidden', tab !== 'single');
+                    document.getElementById('multiTab').classList.toggle('hidden', tab !== 'multi');
+                    document.getElementById('compareTab').classList.toggle('hidden', tab !== 'compare');
+                    
+                    if (tab === 'multi') convertMulti();
+                    if (tab === 'compare') convertCompare();
+                });
+            });
+
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                isLightMode = !isLightMode;
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+                applyTheme();
+            });
+
+            // History
+            document.getElementById('historyToggle').addEventListener('click', toggleHistory);
+            document.getElementById('closeHistory').addEventListener('click', toggleHistory);
+            document.getElementById('historyOverlay').addEventListener('click', toggleHistory);
+            document.getElementById('clearHistory').addEventListener('click', clearHistory);
+            document.getElementById('exportHistory').addEventListener('click', exportHistory);
+
+            // Table
+            document.getElementById('toggleTable').addEventListener('click', () => {
+                const table = document.getElementById('tableContent');
+                const icon = document.getElementById('tableIcon');
+                table.classList.toggle('hidden');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+            document.getElementById('exportTable').addEventListener('click', exportTable);
+
+            // Category scroll
+            document.getElementById('scrollLeft').addEventListener('click', () => {
+                document.getElementById('categoriesContainer').scrollBy({ left: -200, behavior: 'smooth' });
+            });
+            document.getElementById('scrollRight').addEventListener('click', () => {
+                document.getElementById('categoriesContainer').scrollBy({ left: 200, behavior: 'smooth' });
+            });
+
+            // Search
+            const searchInput = document.getElementById('searchUnits');
+            searchInput.addEventListener('input', handleSearch);
+            searchInput.addEventListener('focus', () => {
+                if (searchInput.value) handleSearch();
+            });
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#searchUnits') && !e.target.closest('#searchResults')) {
+                    document.getElementById('searchResults').classList.add('hidden');
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '/' && !e.target.matches('input, textarea')) {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+                if (e.key === 'Escape') {
+                    document.getElementById('searchResults').classList.add('hidden');
+                    closeSettings();
+                    closeCalculator();
+                    closeShare();
+                    if (!document.getElementById('historyPanel').classList.contains('translate-x-full')) {
+                        toggleHistory();
+                    }
+                }
+            });
+
+            // Favorites
+            document.getElementById('addFavFromMain').addEventListener('click', addCurrentToFavorites);
+
+            // Voice
+            document.getElementById('voiceBtn').addEventListener('click', startVoiceInput);
+
+            // Calculator
+            document.getElementById('calcToggle').addEventListener('click', () => {
+                document.getElementById('calculatorModal').classList.remove('hidden');
+            });
+            document.getElementById('useCalcResult').addEventListener('click', () => {
+                document.getElementById('inputValue').value = calcResult;
+                convert();
+                updateTable();
+                closeCalculator();
+            });
+
+            // Settings
+            document.getElementById('settingsToggle').addEventListener('click', () => {
+                document.getElementById('settingsModal').classList.remove('hidden');
+            });
+            
+            document.getElementById('precisionSlider').addEventListener('input', (e) => {
+                settings.precision = parseInt(e.target.value);
+                document.getElementById('precisionValue').textContent = settings.precision;
+                localStorage.setItem('settings', JSON.stringify(settings));
+                convert();
+                updateTable();
+            });
+            
+            ['scientificToggle', 'thousandsToggle', 'soundToggle'].forEach(id => {
+                document.getElementById(id).addEventListener('click', () => {
+                    const key = id.replace('Toggle', '');
+                    const settingKey = key === 'scientific' ? 'scientificNotation' : 
+                                       key === 'thousands' ? 'thousandsSeparator' : 'sounds';
+                    settings[settingKey] = !settings[settingKey];
+                    updateToggleButton(id, settings[settingKey]);
+                    localStorage.setItem('settings', JSON.stringify(settings));
+                    convert();
+                    updateTable();
+                });
+            });
+            
+            document.getElementById('resetSettings').addEventListener('click', () => {
+                settings = {
+                    precision: 8,
+                    scientificNotation: false,
+                    thousandsSeparator: true,
+                    sounds: false
+                };
+                localStorage.setItem('settings', JSON.stringify(settings));
+                applySettings();
+                convert();
+                updateTable();
+                showToast('Configurações restauradas!', 'success');
+            });
+        }
+
+        // Global functions
+        window.loadFavorite = loadFavorite;
+        window.removeFavorite = removeFavorite;
+        window.closeSettings = closeSettings;
+        window.closeCalculator = closeCalculator;
+        window.closeShare = closeShare;
+        window.shareVia = shareVia;
+        window.copyShareLink = copyShareLink;
+        window.calcInput = calcInput;
+        window.calcClear = calcClear;
+        window.calcBackspace = calcBackspace;
+        window.calcEquals = calcEquals;
+
+        // Start
+        init();
+    </script>
+    <footer class="footer-clean py-8 text-center text-gray-500/50">
+        <p class="text-[10px] uppercase tracking-[0.2em] opacity-50">&copy; 2026 4U.IA.BR - Todos os direitos reservados</p>
+    </footer>
+</body>
+</html>

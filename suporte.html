@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - UniConvert Pro 4U.IA.BR</title>
+    <style>
+        :root {
+            --neon-green: #00ffaa;
+            --neon-blue: #38bdf8;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #020205;
+            color: #f1f5f9;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        .support-container {
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            padding: 48px 32px;
+            backdrop-filter: blur(20px);
+        }
+        .lang-block { margin-bottom: 40px; }
+        .lang-block:last-of-type { margin-bottom: 0; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); }
+        h1 { color: var(--neon-green); margin-bottom: 16px; font-weight: 800; font-size: 1.8rem; }
+        p { color: #94a3b8; margin-bottom: 24px; line-height: 1.6; }
+        .btn-support {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+            color: #fff;
+            border-radius: 50%;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.9rem;
+            line-height: 1.2;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.4);
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .btn-support:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(56, 189, 248, 0.6);
+        }
+        .lang-badge { font-size: 0.7rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="support-container">
+        <!-- PT -->
+        <div class="lang-block">
+            <span class="lang-badge">Português</span>
+            <h1>Precisa de Ajuda?</h1>
+            <p>Se você encontrou algum problema ou tem sugestões para a nossa extensão <strong>UniConvert Pro</strong>, nossa equipe está pronta para ouvir você.</p>
+            <a href="https://4u.ia.br/#contact-form" target="_blank" class="btn-support">Contatar Suporte no Portal</a>
+        </div>
+
+        <!-- EN -->
+        <div class="lang-block">
+            <span class="lang-badge">English</span>
+            <h1>Need Help?</h1>
+            <p>If you encounter any issues or have suggestions for our <strong>UniConvert Pro</strong> extension, our team is ready to hear from you.</p>
+            <a href="https://4u.ia.br/#contact-form" target="_blank" class="btn-support">Contact Support on Portal</a>
+        </div>
+
+        <div style="margin-top: 40px; font-size: 0.8rem; color: #64748b;">
+            &copy; <span class="current-year"></span> 4U.IA.BR
+        </div>
+    </div>
+    <script src="common.js"></script>
+</body>
+</html>

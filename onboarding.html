@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao UniConvert Pro - 4U.IA.BR</title>
+    <style>
+        :root {
+            --neon-green: #00ffaa;
+            --neon-blue: #38bdf8;
+            --neon-purple: #c084fc;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020205;
+            color: white;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            backdrop-filter: blur(30px);
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 20px;
+            margin: 0 auto 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.4);
+        }
+        
+        h1 { font-size: 2.5rem; margin-bottom: 16px; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p { color: #94a3b8; font-size: 1.1rem; line-height: 1.6; margin-bottom: 32px; }
+        
+        .steps {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 24px;
+            border-radius: 20px;
+            margin-bottom: 32px;
+        }
+        .step { display: flex; align-items: center; margin-bottom: 16px; }
+        .step:last-child { margin-bottom: 0; }
+        .step-num { width: 28px; height: 28px; background: var(--neon-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; font-weight: 800; margin-right: 12px; flex-shrink: 0; }
+        
+        .btn-start {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--neon-green);
+            color: #020205;
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 100px;
+            box-shadow: 0 10px 30px rgba(0, 255, 170, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(0, 255, 170, 0.6); }
+
+        .lang-toggle { margin-top: 24px; font-size: 0.8rem; color: #475569; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon-box">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        
+        <div id="content-pt">
+            <h1>Tudo Pronto!</h1>
+            <p>O <strong>UniConvert Pro</strong> foi instalado com sucesso. Agora você tem o poder da conversão universal em suas mãos.</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div>Clique no ícone de <strong>Quebra-cabeça</strong> na barra superior.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div>Encontre o <strong>UniConvert Pro</strong> e clique no ícone de <strong>Fixar (Pin)</strong>.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div>Pronto! Agora a ferramenta está sempre a um clique de distância.</div>
+                </div>
+            </div>
+            
+            <a href="#" class="btn-start btn-close-window">Começar a Usar</a>
+        </div>
+
+        <div class="lang-toggle">4U.IA.BR | Premium Extensions</div>
+    </div>
+    <script src="common.js"></script>
+</body>
+</html>
