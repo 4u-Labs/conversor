@@ -13,8 +13,8 @@ $assetVersion = time();
     
     <!-- PWA & Favicon -->
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20261120-2">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=20261120-2">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="theme-color" content="#4f46e5">
 
@@ -192,6 +192,10 @@ $assetVersion = time();
             color: #fbbf24;
         }
     </style>
+
+    <!-- 4u-Labs SEO & Standard Meta -->
+    <link rel="canonical" href="https://4u.ia.br/app/conversor/">
+    <meta property="og:type" content="website"><meta property="og:site_name" content="4u-Labs"><meta property="og:url" content="https://4u.ia.br/app/conversor/"><meta property="og:title" content="UniConvert Pro — Conversor Universal de Unidades, Engenharia e Moedas"><meta property="og:description" content="Conversor universal profissional de grandezas físicas, engenharia civil, mecânica, culinária e moedas em tempo real com inteligência artificial e modo offline (PWA)."><meta property="og:image" content="https://4u.ia.br/app/conversor/icon-512.png">
 </head>
 <body class="p-3 md:p-6 lg:p-8 transition-colors duration-500">
     <!-- Toast Container -->
